@@ -19,7 +19,7 @@ sbx policy check network --sandbox recrutatech-direct localhost:18080
 sbx policy check network --sandbox recrutatech-direct localhost:18081
 
 # --------------------------------------------------
-# PASSO 4 — anexar Codex somente depois da política
+# PASSO 4 — anexar OpenCode somente depois da política
 # Resultado esperado: sessão interativa na sandbox existente.
 # --------------------------------------------------
 sbx run --name recrutatech-direct

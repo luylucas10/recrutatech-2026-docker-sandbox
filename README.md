@@ -1,6 +1,6 @@
 # Docker Sandbox — kit técnico RecrutaTech 2026
 
-Kit de demonstração para **“Docker Sandbox — Mais autonomia para agentes. Menos risco para sua máquina”**, por Luy Santana. Nada aqui deve ser executado automaticamente no palco: os scripts são documentação executável e o [RUNBOOK.md](RUNBOOK.md) contém os comandos individuais.
+Kit de demonstração para **“Docker Sandbox — Mais autonomia para agentes. Menos risco para sua máquina”**, por Luy Santana. Siga os scripts em ordem e confira cada resultado no [RUNBOOK.md](RUNBOOK.md), que também reúne os prompts para o OpenCode.
 
 ## Arquitetura
 
@@ -24,7 +24,7 @@ Cada sandbox tem microVM e Docker Engine próprios. A política referencia servi
 - Git detectado: **2.55.0.windows.3**.
 - Docker CLI detectado: **29.7.2**; daemon indisponível durante a criação do kit.
 - `sbx`: não encontrado no `PATH` durante a criação do kit.
-- Docker Desktop/Engine, internet e autenticação do Codex funcionais no ensaio.
+- Docker Desktop/Engine, internet e autenticação do OpenCode funcionais no ensaio.
 
 Execute `scripts/00-preflight.ps1` antes do ensaio. Ele é read-only e não tenta corrigir falhas.
 
@@ -42,8 +42,7 @@ Execute `scripts/00-preflight.ps1` antes do ensaio. Ele é read-only e não tent
 
 ## Estrutura e fluxo
 
-- `PROMPTS.md`: sete prompts curtos para copiar no Codex.
-- `RUNBOOK.md`: fala, comando individual, resultado, validação e contingência.
+- `RUNBOOK.md`: sequência da demonstração, scripts, prompts para o OpenCode e validação de cada etapa.
 - `helpers/mock-server.ps1`: servidor HTTP mínimo com `TcpListener`, sem URL ACL/admin.
 - `scripts/00`–`03`: inspecionar e preparar fixtures, container e mocks.
 - `scripts/04`–`12`: criar/configurar e provar os seis cenários.
@@ -66,7 +65,7 @@ Clone mode reduz a exposição do working tree: o agente edita uma cópia privad
 
 Sintaxe baseada na documentação oficial atual e nos arquivos de referência CLI do repositório `docker/docs`:
 
-- `sbx create --name NAME codex PATH`, `--clone` e `sbx run --name NAME`: [usage](https://docs.docker.com/ai/sandboxes/usage/) e `data/sbx_cli/sbx_create.yaml`/`sbx_run.yaml`.
+- `sbx create --name NAME opencode PATH`, `--clone` e `sbx run --name NAME`: [usage](https://docs.docker.com/ai/sandboxes/usage/) e `data/sbx_cli/sbx_create.yaml`/`sbx_run.yaml`.
 - `sbx exec SANDBOX COMMAND [ARG...]`: `data/sbx_cli/sbx_exec.yaml`.
 - `sbx ls [--quiet]`: `data/sbx_cli/sbx_ls.yaml`.
 - `sbx rm SANDBOX`: `data/sbx_cli/sbx_rm.yaml`.
@@ -76,20 +75,20 @@ Sintaxe baseada na documentação oficial atual e nos arquivos de referência CL
 - isolamento, direct/clone, Docker privado e `/run/sandbox/source`: [isolation](https://docs.docker.com/ai/sandboxes/security/isolation/) e [development workflows](https://docs.docker.com/ai/sandboxes/workflows/development/).
 - credenciais e risco residual: [credentials](https://docs.docker.com/ai/sandboxes/configuration/credentials/) e [security defaults](https://docs.docker.com/ai/sandboxes/security/defaults/).
 
-Links adicionais consultados: [overview](https://docs.docker.com/ai/sandboxes/), [security](https://docs.docker.com/ai/sandboxes/security/), [architecture](https://docs.docker.com/ai/sandboxes/architecture/) e [Codex](https://docs.docker.com/ai/sandboxes/agents/codex/).
+Links adicionais consultados: [overview](https://docs.docker.com/ai/sandboxes/), [security](https://docs.docker.com/ai/sandboxes/security/) e [architecture](https://docs.docker.com/ai/sandboxes/architecture/).
 
 ## NEEDS-VALIDATION
 
 1. A CLI local `sbx` não estava disponível; valide toda a sintaxe novamente com os `--help` listados nos cinco primeiros comandos do runbook. Se divergir, a CLI instalada vence.
-2. Confirme que `curl` existe no template Codex instalado com `sbx exec recrutatech-direct sh -lc 'command -v curl'`. Os checks de política continuam válidos sem curl, mas tráfego real requer uma ferramenta presente.
+2. Confirme que `curl` existe na sandbox do OpenCode com `sbx exec recrutatech-direct sh -lc 'command -v curl'`. Os checks de política continuam válidos sem curl, mas tráfego real requer uma ferramenta presente.
 3. Confirme no ensaio que o proxy local alcança o `TcpListener` ligado em loopback. Se não alcançar, não improvise no palco: registre o resultado e ajuste conscientemente o bind do helper em todos os materiais.
 
 ## Riscos, limitações e troubleshooting
 
-- Pull inicial de `alpine:3.20`, criação de VM e Codex dependem da internet/cache. Faça o ensaio antes do evento.
+- Pull inicial de `alpine:3.20`, criação de VM e OpenCode dependem da internet/cache. Faça o ensaio antes do evento.
 - Porta ocupada: `00-preflight.ps1` mostra `WARNING`; não mate o processo. Escolha outro par e atualize o kit inteiro.
 - Mock falhou: valide primeiro `Invoke-WebRequest` no host. Falha local não é evidência de política.
 - Política diz allow mas curl falha: separe DNS, ferramenta ausente, serviço parado e timeout; mostre `policy check --verbose` no ensaio.
-- Sandbox não inicia/Codex demora: use as provas objetivas `sbx exec`, `sbx policy check`, `docker ps` e os arquivos do host.
+- Sandbox não inicia/OpenCode demora: use as provas objetivas `sbx exec`, `sbx policy check`, `docker ps` e os arquivos do host.
 - Docker Hub lento/rede do evento falha: pré-puxe `alpine:3.20` durante o ensaio; sem rede, omita apenas a criação dos containers e preserve as provas de filesystem/política.
 - Cleanup usa nomes e PIDs exatos, não usa prune/reset/clean e nunca remove recursivamente.

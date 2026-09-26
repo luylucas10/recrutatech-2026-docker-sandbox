@@ -3,8 +3,7 @@ $Workspace = Join-Path (Split-Path -Parent $PSScriptRoot) 'workspace'
 # --------------------------------------------------
 # PASSO 1 — criar, sem anexar, a sandbox direct
 # Resultado esperado: somente recrutatech-direct; workspace exato em leitura/escrita.
-# Claude Code, Codex, Copilot, Cursor, Devin
-# Docker Agent, Droid, Gemini, Kiro, OpenCode, Shell 
+# Agente desta demonstração: OpenCode.
 # --------------------------------------------------
 sbx create --name recrutatech-direct opencode $Workspace
 
@@ -14,5 +13,5 @@ sbx create --name recrutatech-direct opencode $Workspace
 # --------------------------------------------------
 sbx ls
 
-# A sessão do Codex só é aberta no PASSO 4 de 05-configure-network-policy.ps1,
+# A sessão do OpenCode só é aberta no PASSO 4 de 05-configure-network-policy.ps1,
 # depois das regras e checks de rede.

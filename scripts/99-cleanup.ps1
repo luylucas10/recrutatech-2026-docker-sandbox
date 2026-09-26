@@ -1,7 +1,7 @@
 $DemoRoot = Split-Path -Parent $PSScriptRoot
 $StateDir = Join-Path $DemoRoot '.demo-state'
 $confirmedRoot = [IO.Path]::GetFullPath($DemoRoot)
-$requiredMarkers = 'README.md', 'RUNBOOK.md', 'PROMPTS.md', 'workspace', 'host-only', 'scripts/99-cleanup.ps1'
+$requiredMarkers = 'README.md', 'RUNBOOK.md', 'workspace', 'host-only', 'scripts/99-cleanup.ps1'
 foreach ($marker in $requiredMarkers) {
     if (-not (Test-Path -LiteralPath (Join-Path $confirmedRoot $marker))) { throw "Raiz recusada; marcador ausente: $marker" }
 }
