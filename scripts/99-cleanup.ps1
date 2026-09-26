@@ -37,11 +37,19 @@ foreach ($port in 18080, 18081) {
     $pidFile = Join-Path $StateDir "mock-$port.pid"
     if (-not (Test-Path -LiteralPath $pidFile)) { continue }
     $mockPid = [int](Get-Content -LiteralPath $pidFile)
+    $running = Get-Process -Id $mockPid -ErrorAction SilentlyContinue
+    if (-not $running) {
+        Remove-Item -LiteralPath $pidFile
+        continue
+    }
     $process = Get-CimInstance Win32_Process -Filter "ProcessId=$mockPid" -ErrorAction SilentlyContinue
     if ($process -and $process.CommandLine -like "*mock-server.ps1*" -and $process.CommandLine -like "*$confirmedRoot*") {
-        Write-Host "Encerrando mock PID $mockPid na porta $port"; Stop-Process -Id $mockPid
-    } else { Write-Warning "PID $mockPid não corresponde ao mock desta demo; não foi encerrado." }
-    Remove-Item -LiteralPath $pidFile
+        Write-Host "Encerrando mock PID $mockPid na porta $port"
+        Stop-Process -Id $mockPid -ErrorAction Stop
+        Remove-Item -LiteralPath $pidFile
+    } else {
+        Write-Warning "PID $mockPid não corresponde ao mock desta demo; não foi encerrado. Arquivo $pidFile preservado para investigação."
+    }
 }
 
 foreach ($name in 'deploy.log', 'blocked.log') {

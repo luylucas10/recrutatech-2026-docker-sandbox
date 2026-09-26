@@ -28,4 +28,4 @@ if ((Get-Command sbx -ErrorAction SilentlyContinue) -and ((sbx ls --quiet) -cont
 Get-Content -LiteralPath (Join-Path $Workspace 'message.txt')
 git -C $Workspace status --short
 
-Write-Warning 'Clone mode mantém estado dentro da sandbox. Para zerá-lo, remova e recrie somente recrutatech-clone usando 99-cleanup.ps1 e 10-create-clone-sandbox.ps1.'
+Write-Warning 'Clone mode mantém estado dentro da sandbox. Para repeti-lo, execute sbx rm recrutatech-clone e depois 10-create-clone-sandbox.ps1. O cleanup 99 remove todos os recursos da demo.'

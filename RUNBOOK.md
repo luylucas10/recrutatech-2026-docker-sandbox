@@ -105,6 +105,6 @@ Pare se o preflight mostrar `[FAIL]` ou se os serviços locais não responderem.
 
 ## Repetir ou encerrar
 
-Para repetir a demonstração, execute `& .\scripts\90-reset-demo-state.ps1`. O reset restaura o fixture e os logs; para repetir o teste do clone, remova e recrie somente `recrutatech-clone`. Ao terminar, execute `& .\scripts\99-cleanup.ps1`: confira os recursos listados e digite `LIMPAR-DEMO` para removê-los.
+Para repetir a demonstração, execute `& .\scripts\90-reset-demo-state.ps1`. O reset restaura o fixture e os logs; para repetir o teste do clone, execute `sbx rm recrutatech-clone` e depois `& .\scripts\10-create-clone-sandbox.ps1`. Ao terminar, execute `& .\scripts\99-cleanup.ps1`: confira os recursos listados e digite `LIMPAR-DEMO` para removê-los.
 
 Se a sandbox ou o OpenCode demorar, use os comandos objetivos dos scripts com `sbx exec`. Se o mock falhar no host, resolva isso antes do teste de rede. Uma falha de ferramenta, DNS ou serviço não comprova bloqueio da sandbox.
